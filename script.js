@@ -248,6 +248,51 @@ function setupEventListeners() {
     const profileForm = document.getElementById('profile-form');
     const userProfileEl = document.getElementById('user-profile');
 
+    let uploadedAvatarBase64 = '';
+    const avatarFileIn = document.getElementById('profile-avatar-file');
+    const avatarPreview = document.getElementById('profile-avatar-preview');
+
+    if (avatarFileIn) {
+        avatarFileIn.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                const img = new Image();
+                img.onload = () => {
+                    const canvas = document.createElement('canvas');
+                    const MAX_SIZE = 150;
+                    let width = img.width;
+                    let height = img.height;
+                    
+                    if (width > height) {
+                        if (width > MAX_SIZE) {
+                            height *= MAX_SIZE / width;
+                            width = MAX_SIZE;
+                        }
+                    } else {
+                        if (height > MAX_SIZE) {
+                            width *= MAX_SIZE / height;
+                            height = MAX_SIZE;
+                        }
+                    }
+                    
+                    canvas.width = width;
+                    canvas.height = height;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0, width, height);
+                    
+                    // 压缩为 jpeg Base64，大幅减小提交体积并直接存储入 JSON
+                    uploadedAvatarBase64 = canvas.toDataURL('image/jpeg', 0.8);
+                    if (avatarPreview) avatarPreview.src = uploadedAvatarBase64;
+                };
+                img.src = event.target.result;
+            };
+            reader.readAsDataURL(file);
+        });
+    }
+
     function openProfile() {
         if (!localStorage.getItem('token')) {
             authOverlay.classList.add('active');
@@ -256,7 +301,12 @@ function setupEventListeners() {
         }
         document.getElementById('profile-nickname').value = localStorage.getItem('nickname') || localStorage.getItem('username') || '';
         document.getElementById('profile-birthday').value = localStorage.getItem('birthday') || '';
-        document.getElementById('profile-avatar').value = localStorage.getItem('avatar') || '';
+        
+        uploadedAvatarBase64 = localStorage.getItem('avatar') || '';
+        if (avatarPreview) {
+            avatarPreview.src = uploadedAvatarBase64 || `https://ui-avatars.com/api/?name=${document.getElementById('profile-nickname').value || 'User'}&background=FF6838&color=fff`;
+        }
+
         document.getElementById('profile-error').textContent = '';
         if (profileOverlay) profileOverlay.classList.add('active');
         if (profileModal) profileModal.classList.add('active');
@@ -285,7 +335,7 @@ function setupEventListeners() {
             e.preventDefault();
             const nickname = document.getElementById('profile-nickname').value;
             const birthday = document.getElementById('profile-birthday').value;
-            const avatar = document.getElementById('profile-avatar').value;
+            const avatar = uploadedAvatarBase64;
             
             const btn = profileForm.querySelector('.auth-submit-btn');
             btn.textContent = '保存中...';

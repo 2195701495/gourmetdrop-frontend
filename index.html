@@ -189,8 +189,11 @@
                 <input type="date" id="profile-birthday">
             </div>
             <div class="form-group">
-                <label>自定义头像链接 (Avatar URL)</label>
-                <input type="url" id="profile-avatar" placeholder="https://... (留空则默认)">
+                <label>自定义真彩头像 (Avatar Upload)</label>
+                <div style="display: flex; align-items: center; gap: 12px; margin-top: 4px;">
+                    <img id="profile-avatar-preview" src="" style="width: 48px; height: 48px; border-radius: 50%; object-fit: cover; background: #f0f0f0;">
+                    <input type="file" id="profile-avatar-file" accept="image/*" style="flex: 1; font-size: 13px;">
+                </div>
             </div>
             <button type="submit" class="auth-submit-btn">保存修改</button>
             <div class="auth-error" id="profile-error" style="text-align: center; margin-top: 8px;"></div>
