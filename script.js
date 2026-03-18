@@ -402,12 +402,16 @@ function setupEventListeners() {
 
             if(navLoginBtn) navLoginBtn.style.display = 'none';
             if(userProfile) userProfile.style.display = 'flex';
+            const ordersNav = document.getElementById('orders-nav');
+            if(ordersNav) ordersNav.style.display = 'flex';
             if(document.getElementById('username-display')) document.getElementById('username-display').textContent = nickname;
             if(document.getElementById('profile-img')) document.getElementById('profile-img').src = avatar;
             if(bottomProfileText) bottomProfileText.textContent = nickname;
         } else {
             if(navLoginBtn) navLoginBtn.style.display = 'block';
             if(userProfile) userProfile.style.display = 'none';
+            const ordersNav = document.getElementById('orders-nav');
+            if(ordersNav) ordersNav.style.display = 'none';
             if(bottomProfileText) bottomProfileText.textContent = '登录 / 注册';
         }
     }
@@ -493,6 +497,75 @@ function setupEventListeners() {
             showToast('已退出登录');
         });
     }
+
+    // Orders History Logic
+    const ordersNav = document.getElementById('orders-nav');
+    const tabOrders = document.getElementById('tab-orders');
+    const ordersOverlay = document.getElementById('orders-overlay');
+    const ordersModal = document.getElementById('orders-modal');
+    const closeOrdersBtn = document.getElementById('close-orders');
+    const ordersListContainer = document.getElementById('orders-list-container');
+
+    async function openOrdersHistory() {
+        if (!localStorage.getItem('token')) {
+            authOverlay.classList.add('active');
+            authModal.classList.add('active');
+            return;
+        }
+        if (ordersOverlay) ordersOverlay.classList.add('active');
+        if (ordersModal) ordersModal.classList.add('active');
+        
+        if (ordersListContainer) ordersListContainer.innerHTML = '<div style="text-align: center; color: #999; padding: 20px;">正在努力拉取历史订单...</div>';
+        try {
+            const res = await fetch(`${API_HOST}/api/orders`, {
+                headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
+            });
+            
+            if (!res.ok) throw new Error('Request Failed');
+            const orders = await res.json();
+            
+            if (!orders || orders.length === 0) {
+                ordersListContainer.innerHTML = '<div style="text-align: center; color: #999; padding: 40px 20px;"><span class="material-symbols-rounded" style="font-size:48px; color:#e0e0e0;">receipt_long</span><br><br>您还没有下过订单，快去挑选美食吧！</div>';
+                return;
+            }
+
+            ordersListContainer.innerHTML = orders.map(order => {
+                const dateStatus = new Date(order.createdAt).toLocaleString('zh-CN', { hour12: false });
+                const isPaid = order.status === 'PAID';
+                const statusHtml = isPaid ? '<span class="status-PAID">✅ 制作中 / 已支付</span>' : '<span class="status-PENDING">⏳ 待支付拦截</span>';
+                const itemsHtml = order.items.map(item => `
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                        <span>${item.name} x${item.quantity}</span>
+                        <span style="font-weight: 600;">¥${(item.price * item.quantity).toFixed(2)}</span>
+                    </div>
+                `).join('');
+
+                return `
+                    <div class="order-card-history">
+                        <div class="order-history-header">
+                            <span>订单号：#${order.orderId.substring(0, 8).toUpperCase()}</span>
+                            <span>${dateStatus}</span>
+                        </div>
+                        <div class="order-history-items">
+                            ${itemsHtml}
+                        </div>
+                        <div class="order-history-total">
+                            ${statusHtml} &nbsp;&nbsp; 合计: ¥${order.total.toFixed(2)}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        } catch (err) {
+            ordersListContainer.innerHTML = '<div style="text-align: center; color: #ff4d4f; padding: 20px;">网络异常，未能成功加载订单数据</div>';
+        }
+    }
+
+    if (ordersNav) ordersNav.addEventListener('click', openOrdersHistory);
+    if (tabOrders) tabOrders.addEventListener('click', openOrdersHistory);
+    if (closeOrdersBtn) closeOrdersBtn.addEventListener('click', () => {
+        if (ordersOverlay) ordersOverlay.classList.remove('active');
+        if (ordersModal) ordersModal.classList.remove('active');
+    });
 
     // Checkout Button Logic
     const checkoutBtn = document.getElementById('checkout-btn');

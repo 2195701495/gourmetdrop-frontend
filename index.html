@@ -33,6 +33,10 @@
             <div class="nav-actions">
                 <a href="#" class="nav-item active">首页</a>
                 <a href="#" class="nav-item">订单</a>
+                <div class="orders-nav" id="orders-nav" style="display: none; cursor: pointer; align-items: center; gap: 4px; padding: 6px 14px; border-radius: 20px; background: var(--bg-color); transition: background 0.2s;">
+                <span class="material-symbols-rounded" style="color: var(--primary);">receipt_long</span>
+                <span class="orders-text" style="font-weight: 600; font-size: 14px; color: var(--text-dark);">我的订单</span>
+            </div>
                 <a href="#" class="nav-item cart-nav">
                     <span class="material-symbols-rounded">shopping_bag</span>
                     <span class="cart-count" style="display: none;">0</span>
@@ -201,6 +205,19 @@
         </form>
     </div>
 
+    <!-- Orders History Modal -->
+    <div class="auth-overlay" id="orders-overlay"></div>
+    <div class="auth-modal" id="orders-modal" style="width: 90%; max-width: 500px; max-height: 85vh; overflow-y: auto;">
+        <button class="close-auth" id="close-orders"><span class="material-symbols-rounded">close</span></button>
+        <div class="wechat-header" style="background: none; border: none; padding-top: 24px; padding-bottom: 0;">
+            <span class="material-symbols-rounded" style="color: var(--primary);">receipt_long</span>
+            我的历史订单
+        </div>
+        <div id="orders-list-container" style="padding: 16px;">
+            <div style="text-align: center; color: #999; padding: 20px;">正在呼叫外卖小哥拉取单据...</div>
+        </div>
+    </div>
+
     <!-- WeChat Pay Modal -->
     <div class="wechat-pay-overlay" id="wechat-pay-overlay"></div>
     <div class="wechat-pay-modal" id="wechat-pay-modal">
@@ -229,6 +246,10 @@
         <div class="bottom-nav-item active" id="tab-home" onclick="window.scrollTo(0,0)">
             <span class="material-symbols-rounded">home</span>
             <span>外卖首页</span>
+        </div>
+        <div class="bottom-nav-item" id="tab-orders">
+            <span class="material-symbols-rounded">receipt_long</span>
+            <span>历史订单</span>
         </div>
         <div class="bottom-nav-item" id="tab-cart">
             <div style="position: relative;">
