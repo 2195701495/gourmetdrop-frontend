@@ -84,7 +84,7 @@ function renderFoodGrid() {
         card.className = 'food-card';
         card.innerHTML = `
             <div class="card-image-wrapper">
-                <img src="${item.img}" alt="${item.name}" class="card-img">
+                <img src="${item.img}" alt="${item.name}" class="card-img" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1504674900247-0877df9cc836?q=80&w=800&auto=format&fit=crop';">
                 <div class="time-badge">${item.time}</div>
                 <button class="favorite-btn ${isFav}" data-id="${item.id}" style="font-variation-settings: 'FILL' ${favIconFill}">
                     <span class="material-symbols-rounded">favorite</span>

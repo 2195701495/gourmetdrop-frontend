@@ -948,6 +948,64 @@ body {
     100% { transform: scale(1); }
 }
 
+/* ================= Mobile Adaptation ================= */
+@media (max-width: 768px) {
+    /* Navbar Wrapping */
+    .navbar {
+        flex-wrap: wrap;
+        padding: 12px 16px;
+        gap: 12px;
+    }
+    .nav-left {
+        width: auto;
+    }
+    /* Hide specific long texts on mobile */
+    #current-location, 
+    .cart-nav .cart-text,
+    #username-display {
+        display: none !important;
+    }
+    .nav-right {
+        margin-left: auto; /* Push to right edge */
+        gap: 12px;
+    }
+    /* Push search bar to the second row fully */
+    .nav-center {
+        width: 100%;
+        order: 3;
+    }
+    .search-bar {
+        width: 100%;
+    }
+    
+    /* Layout Adjustments */
+    .main-content {
+        padding: 16px 12px;
+    }
+    .food-grid {
+        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+        gap: 12px;
+    }
+    
+    /* Modal Size Limits */
+    .auth-modal, .wechat-pay-modal {
+        width: 92%;
+        max-width: none;
+    }
+    .auth-body, .wechat-body {
+        padding: 24px 16px;
+    }
+    
+    /* Shopping Cart Sidebar Fullscreen Mobile */
+    .cart-sidebar {
+        width: 100%;
+        right: -100%;
+    }
+    .cart-sidebar.active {
+        right: 0;
+    }
+}
+
 /* ================= Auth UI & Modal ================= */
 .login-btn {
     background: var(--primary-light);
