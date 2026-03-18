@@ -438,7 +438,22 @@ function setupEventListeners() {
             authTabs.forEach(t => t.classList.remove('active'));
             e.currentTarget.classList.add('active');
             authMode = e.currentTarget.getAttribute('data-tab');
-            authSubmitBtn.textContent = authMode === 'login' ? '登录' : '注册';
+            
+            if(authSubmitBtn) authSubmitBtn.textContent = authMode === 'login' ? '验证并进入系统' : '立即创建并开启体验';
+            
+            const confirmGroup = document.getElementById('auth-confirm-group');
+            if (confirmGroup) confirmGroup.style.display = authMode === 'login' ? 'none' : 'block';
+            
+            const headerTitle = document.querySelector('.auth-header h3');
+            const headerSub = document.querySelector('.auth-header p');
+            if (authMode === 'register' && headerTitle) {
+                headerTitle.textContent = '加入 GourmetDrop';
+                if(headerSub) headerSub.textContent = '仅需几秒钟，即刻开始您的独家美食之旅';
+            } else if (headerTitle) {
+                headerTitle.textContent = '欢迎回来';
+                if(headerSub) headerSub.textContent = '登录您的外卖账号以发现周边精选美食';
+            }
+            
             authError.textContent = '';
         });
     });
@@ -449,7 +464,15 @@ function setupEventListeners() {
             const username = document.getElementById('auth-username').value;
             const password = document.getElementById('auth-password').value;
             
-            authError.textContent = '请求中...';
+            if (authMode === 'register') {
+                const confirmPwd = document.getElementById('auth-confirm-password').value;
+                if (password !== confirmPwd) {
+                    authError.textContent = '❌ 两次输入的密码不一致，请仔细检查后再试！';
+                    return;
+                }
+            }
+            
+            authError.textContent = '服务器验证中...';
             try {
                 const endpoint = authMode === 'login' ? `${API_HOST}/api/auth/login` : `${API_HOST}/api/auth/register`;
                 const response = await fetch(endpoint, {
