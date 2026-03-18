@@ -171,6 +171,33 @@
         </form>
     </div>
 
+    <!-- Profile Edit Modal -->
+    <div class="auth-overlay" id="profile-overlay"></div>
+    <div class="auth-modal" id="profile-modal">
+        <button class="close-auth" id="close-profile"><span class="material-symbols-rounded">close</span></button>
+        <div class="wechat-header" style="background: none; border: none; padding-top: 24px; padding-bottom: 0;">
+            <span class="material-symbols-rounded" style="color: var(--primary);">manage_accounts</span>
+            个人资料设置
+        </div>
+        <form class="auth-form" id="profile-form" style="margin-top: 10px;">
+            <div class="form-group">
+                <label>专属昵称 (Nickname)</label>
+                <input type="text" id="profile-nickname" placeholder="想取个什么好听的称呼？">
+            </div>
+            <div class="form-group">
+                <label>生日 (Birthday)</label>
+                <input type="date" id="profile-birthday">
+            </div>
+            <div class="form-group">
+                <label>自定义头像链接 (Avatar URL)</label>
+                <input type="url" id="profile-avatar" placeholder="https://... (留空则默认)">
+            </div>
+            <button type="submit" class="auth-submit-btn">保存修改</button>
+            <div class="auth-error" id="profile-error" style="text-align: center; margin-top: 8px;"></div>
+            <button type="button" class="close-wechat" id="profile-logout-btn" style="margin-top: 16px; border-radius: 8px; color: #ff4d4f; background: #fff0f0;">退出当前账号</button>
+        </form>
+    </div>
+
     <!-- WeChat Pay Modal -->
     <div class="wechat-pay-overlay" id="wechat-pay-overlay"></div>
     <div class="wechat-pay-modal" id="wechat-pay-modal">

@@ -242,16 +242,90 @@ function setupEventListeners() {
     const tabProfile = document.getElementById('tab-profile');
     
     if (tabCart) tabCart.addEventListener('click', openCart);
+    // Profile Edit Modal Logic
+    const profileOverlay = document.getElementById('profile-overlay');
+    const profileModal = document.getElementById('profile-modal');
+    const closeProfileBtn = document.getElementById('close-profile');
+    const profileForm = document.getElementById('profile-form');
+    const userProfileEl = document.getElementById('user-profile');
+
+    function openProfile() {
+        if (!localStorage.getItem('token')) {
+            authOverlay.classList.add('active');
+            authModal.classList.add('active');
+            return;
+        }
+        document.getElementById('profile-nickname').value = localStorage.getItem('nickname') || localStorage.getItem('username') || '';
+        document.getElementById('profile-birthday').value = localStorage.getItem('birthday') || '';
+        document.getElementById('profile-avatar').value = localStorage.getItem('avatar') || '';
+        document.getElementById('profile-error').textContent = '';
+        if (profileOverlay) profileOverlay.classList.add('active');
+        if (profileModal) profileModal.classList.add('active');
+    }
+
+    if (closeProfileBtn) closeProfileBtn.addEventListener('click', () => {
+        profileOverlay.classList.remove('active');
+        profileModal.classList.remove('active');
+    });
+
+    if (userProfileEl) userProfileEl.addEventListener('click', openProfile);
+
     if (tabProfile) {
         tabProfile.addEventListener('click', () => {
             if (localStorage.getItem('token')) {
-                if (confirm('账号：' + localStorage.getItem('username') + '\\n您确认要退出登录离开系统吗？')) {
-                    const logoutBtn = document.getElementById('logout-btn');
-                    if (logoutBtn) logoutBtn.click();
-                }
+                openProfile();
             } else {
                 authOverlay.classList.add('active');
                 authModal.classList.add('active');
+            }
+        });
+    }
+
+    if (profileForm) {
+        profileForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const nickname = document.getElementById('profile-nickname').value;
+            const birthday = document.getElementById('profile-birthday').value;
+            const avatar = document.getElementById('profile-avatar').value;
+            
+            const btn = profileForm.querySelector('.auth-submit-btn');
+            btn.textContent = '保存中...';
+
+            try {
+                const res = await fetch(`${API_HOST}/api/user/profile`, {
+                    method: 'PUT',
+                    headers: { 
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`
+                    },
+                    body: JSON.stringify({ nickname, birthday, avatar })
+                });
+                const data = await res.json();
+                
+                if (res.ok) {
+                    localStorage.setItem('nickname', data.user.nickname || '');
+                    localStorage.setItem('avatar', data.user.avatar || '');
+                    localStorage.setItem('birthday', data.user.birthday || '');
+                    checkAuthState();
+                    if (closeProfileBtn) closeProfileBtn.click();
+                    showToast('个人资料保存成功！');
+                } else {
+                    document.getElementById('profile-error').textContent = data.error || '保存失败';
+                }
+            } catch(err) {
+                document.getElementById('profile-error').textContent = '网络错误';
+            } finally {
+                btn.textContent = '保存修改';
+            }
+        });
+    }
+
+    const profileLogoutBtn = document.getElementById('profile-logout-btn');
+    if (profileLogoutBtn) {
+        profileLogoutBtn.addEventListener('click', () => {
+            if (confirm('账号：' + localStorage.getItem('username') + '\\n您确认要登出离开系统吗？')) {
+                document.getElementById('logout-btn').click();
+                if (closeProfileBtn) closeProfileBtn.click();
             }
         });
     }
@@ -274,11 +348,14 @@ function setupEventListeners() {
         const bottomProfileText = document.getElementById('bottom-profile-text');
         
         if (token && username) {
+            const nickname = localStorage.getItem('nickname') || username;
+            const avatar = localStorage.getItem('avatar') || `https://ui-avatars.com/api/?name=${nickname}&background=FF6838&color=fff`;
+
             if(navLoginBtn) navLoginBtn.style.display = 'none';
             if(userProfile) userProfile.style.display = 'flex';
-            if(document.getElementById('username-display')) document.getElementById('username-display').textContent = username;
-            if(document.getElementById('profile-img')) document.getElementById('profile-img').src = `https://ui-avatars.com/api/?name=${username}&background=FF6838&color=fff`;
-            if(bottomProfileText) bottomProfileText.textContent = username;
+            if(document.getElementById('username-display')) document.getElementById('username-display').textContent = nickname;
+            if(document.getElementById('profile-img')) document.getElementById('profile-img').src = avatar;
+            if(bottomProfileText) bottomProfileText.textContent = nickname;
         } else {
             if(navLoginBtn) navLoginBtn.style.display = 'block';
             if(userProfile) userProfile.style.display = 'none';
@@ -337,6 +414,9 @@ function setupEventListeners() {
                 if (authMode === 'login') {
                     localStorage.setItem('token', data.token);
                     localStorage.setItem('username', data.user.username);
+                    localStorage.setItem('nickname', data.user.nickname || '');
+                    localStorage.setItem('avatar', data.user.avatar || '');
+                    localStorage.setItem('birthday', data.user.birthday || '');
                     closeAuthBtn.click();
                     checkAuthState();
                     showToast('登录成功，欢迎回来！');
@@ -357,6 +437,9 @@ function setupEventListeners() {
         logoutBtn.addEventListener('click', () => {
             localStorage.removeItem('token');
             localStorage.removeItem('username');
+            localStorage.removeItem('nickname');
+            localStorage.removeItem('avatar');
+            localStorage.removeItem('birthday');
             checkAuthState();
             showToast('已退出登录');
         });
