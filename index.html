@@ -194,6 +194,25 @@
         <button class="close-wechat" id="close-wechat">取消支付 (关闭)</button>
     </div>
 
+    <!-- Mobile Bottom Navigation (Visible only on mobile) -->
+    <div class="bottom-nav" id="bottom-nav">
+        <div class="bottom-nav-item active" id="tab-home" onclick="window.scrollTo(0,0)">
+            <span class="material-symbols-rounded">home</span>
+            <span>外卖首页</span>
+        </div>
+        <div class="bottom-nav-item" id="tab-cart">
+            <div style="position: relative;">
+                <span class="material-symbols-rounded">shopping_bag</span>
+                <div class="bottom-cart-badge cart-count" style="display: none;">0</div>
+            </div>
+            <span>购物车</span>
+        </div>
+        <div class="bottom-nav-item" id="tab-profile">
+            <span class="material-symbols-rounded">person</span>
+            <span id="bottom-profile-text">未登录</span>
+        </div>
+    </div>
+
     <script src="script.js"></script>
 </body>
 </html>

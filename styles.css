@@ -949,6 +949,11 @@ body {
 }
 
 /* ================= Mobile Adaptation ================= */
+/* Bottom Nav (Hidden on Desktop) */
+.bottom-nav {
+    display: none;
+}
+
 @media (max-width: 768px) {
     /* Navbar Wrapping */
     .navbar {
@@ -960,14 +965,20 @@ body {
         width: auto;
     }
     /* Hide specific long texts on mobile */
-    #current-location, 
+    #current-location {
+        display: inline-block !important; /* Force show text for location */
+        font-size: 14px;
+        max-width: 140px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
     .cart-nav .cart-text,
     #username-display {
         display: none !important;
     }
     .nav-right {
-        margin-left: auto; /* Push to right edge */
-        gap: 12px;
+        display: none !important; /* Hide old auth and cart on mobile layout */
     }
     /* Push search bar to the second row fully */
     .nav-center {
@@ -1000,9 +1011,56 @@ body {
     .cart-sidebar {
         width: 100%;
         right: -100%;
+        z-index: 4000;
     }
     .cart-sidebar.active {
         right: 0;
+    }
+    
+    /* Reveal App-style Bottom Navigation */
+    .bottom-nav {
+        display: flex;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        background: #fff;
+        border-top: 1px solid var(--border-color);
+        box-shadow: 0 -4px 14px rgba(0,0,0,0.06);
+        z-index: 3500;
+        justify-content: space-around;
+        padding: 8px 0;
+        padding-bottom: calc(8px + env(safe-area-inset-bottom));
+    }
+    .bottom-nav-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 4px;
+        color: var(--text-muted);
+        font-size: 11px;
+        cursor: pointer;
+    }
+    .bottom-nav-item.active {
+        color: var(--primary);
+    }
+    .bottom-nav-item .material-symbols-rounded {
+        font-size: 24px;
+    }
+    .bottom-cart-badge {
+        position: absolute;
+        top: -4px;
+        right: -8px;
+        background: var(--primary);
+        color: #fff;
+        font-size: 10px;
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        display: flex; /* overridden inline to block/flex usually */
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
     }
 }
 

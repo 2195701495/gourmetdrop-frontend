@@ -47,6 +47,12 @@ document.addEventListener('DOMContentLoaded', () => {
 function initApp() {
     renderFoodGrid();
     setupEventListeners();
+
+    // 尝试在主内容加载后自动请求地理位置
+    const locationBtn = document.querySelector('.location');
+    if (locationBtn) {
+        setTimeout(() => locationBtn.click(), 800);
+    }
 }
 
 function renderFoodGrid() {
@@ -231,6 +237,25 @@ function setupEventListeners() {
     if(overlay) overlay.addEventListener('click', closeCart);
     if(closeCartBtn) closeCartBtn.addEventListener('click', closeCart);
 
+    // Bottom mobile nav logic
+    const tabCart = document.getElementById('tab-cart');
+    const tabProfile = document.getElementById('tab-profile');
+    
+    if (tabCart) tabCart.addEventListener('click', openCart);
+    if (tabProfile) {
+        tabProfile.addEventListener('click', () => {
+            if (localStorage.getItem('token')) {
+                if (confirm('账号：' + localStorage.getItem('username') + '\\n您确认要退出登录离开系统吗？')) {
+                    const logoutBtn = document.getElementById('logout-btn');
+                    if (logoutBtn) logoutBtn.click();
+                }
+            } else {
+                authOverlay.classList.add('active');
+                authModal.classList.add('active');
+            }
+        });
+    }
+
     // Auth Logic
     const navLoginBtn = document.getElementById('nav-login-btn');
     const authOverlay = document.getElementById('auth-overlay');
@@ -246,15 +271,18 @@ function setupEventListeners() {
         const token = localStorage.getItem('token');
         const username = localStorage.getItem('username');
         const userProfile = document.getElementById('user-profile');
+        const bottomProfileText = document.getElementById('bottom-profile-text');
         
         if (token && username) {
-            navLoginBtn.style.display = 'none';
-            userProfile.style.display = 'flex';
-            document.getElementById('username-display').textContent = username;
-            document.getElementById('profile-img').src = `https://ui-avatars.com/api/?name=${username}&background=FF6838&color=fff`;
+            if(navLoginBtn) navLoginBtn.style.display = 'none';
+            if(userProfile) userProfile.style.display = 'flex';
+            if(document.getElementById('username-display')) document.getElementById('username-display').textContent = username;
+            if(document.getElementById('profile-img')) document.getElementById('profile-img').src = `https://ui-avatars.com/api/?name=${username}&background=FF6838&color=fff`;
+            if(bottomProfileText) bottomProfileText.textContent = username;
         } else {
-            navLoginBtn.style.display = 'block';
-            userProfile.style.display = 'none';
+            if(navLoginBtn) navLoginBtn.style.display = 'block';
+            if(userProfile) userProfile.style.display = 'none';
+            if(bottomProfileText) bottomProfileText.textContent = '登录 / 注册';
         }
     }
 
@@ -489,12 +517,11 @@ function handleAddToCart(e) {
 }
 
 function updateCartBadge() {
-    const cartBadge = document.querySelector('.cart-count');
-    if (cartBadge) {
-        const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-        cartBadge.textContent = totalItems.toString();
-        cartBadge.style.display = totalItems > 0 ? 'flex' : 'none';
-    }
+    const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+    document.querySelectorAll('.cart-count').forEach(badge => {
+        badge.textContent = totalItems.toString();
+        badge.style.display = totalItems > 0 ? 'flex' : 'none';
+    });
 }
 
 function renderCartItems() {
