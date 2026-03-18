@@ -58,6 +58,7 @@ body {
     font-weight: 900;
     background: linear-gradient(135deg, #FF6838, #ff3b30);
     -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
     letter-spacing: -1px;
     font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
