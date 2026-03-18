@@ -500,12 +500,18 @@ body {
     margin-bottom: 20px;
 }
 
-.rating {
+.location {
     display: flex;
     align-items: center;
     gap: 4px;
-    font-weight: 600;
-    color: var(--text-dark);
+    font-size: 14px;
+    color: var(--text-muted);
+    cursor: pointer;
+    user-select: none;
+    transition: opacity 0.2s;
+}
+.location:active {
+    opacity: 0.4;
 }
 
 .star {

@@ -47,12 +47,6 @@ document.addEventListener('DOMContentLoaded', () => {
 function initApp() {
     renderFoodGrid();
     setupEventListeners();
-
-    // 尝试在主内容加载后自动请求地理位置
-    const locationBtn = document.querySelector('.location');
-    if (locationBtn) {
-        setTimeout(() => locationBtn.click(), 800);
-    }
 }
 
 function renderFoodGrid() {
@@ -134,47 +128,52 @@ function setupEventListeners() {
         locationBtn.title = '点击获取当前真实位置';
         
         locationBtn.addEventListener('click', () => {
-            locationText.textContent = '正在获取卫星定位...';
+            locationText.textContent = '正在连接卫星定位...';
             
             if (!navigator.geolocation) {
-                locationText.textContent = '浏览器不支持定位';
-                showToast('您的浏览器不支持地理位置功能');
+                locationText.textContent = '设备不支持卫星定位';
+                showToast('您的设备浏览器不支持地理位置功能');
                 return;
             }
 
-            navigator.geolocation.getCurrentPosition(async (position) => {
-                const lat = position.coords.latitude;
-                const lon = position.coords.longitude;
-                try {
-                    // OpenStreetMap Nominatim API for Free Reverse Geocoding
-                    const res = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}&addressdetails=1&accept-language=zh`);
-                    const data = await res.json();
-                    
-                    if (data && data.address) {
-                        const city = data.address.city || data.address.town || data.address.county || '';
-                        const suburb = data.address.suburb || data.address.district || '';
-                        const road = data.address.road || data.address.neighbourhood || '';
+            // 增加强制500毫秒延迟：防止浏览器权限秒拒时文本替换过快，导致用户肉眼觉得“点下去毫无反应”
+            setTimeout(() => {
+                navigator.geolocation.getCurrentPosition(async (position) => {
+                    const lat = position.coords.latitude;
+                    const lon = position.coords.longitude;
+                    try {
+                        const res = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}&addressdetails=1&accept-language=zh`);
+                        const data = await res.json();
                         
-                        let shortAddress = `${city}${suburb}${road}`.trim();
-                        if (!shortAddress) shortAddress = data.display_name.split(',')[0];
-                        
-                        locationText.textContent = shortAddress;
-                        showToast('📍 精准地图定位成功！');
-                    } else {
-                        locationText.textContent = '定位成功(无可查街道)';
-                        showToast('获取您的坐标成功，但免费解析引擎未能匹配对应的街道地图');
+                        if (data && data.address) {
+                            const city = data.address.city || data.address.town || data.address.county || '';
+                            const suburb = data.address.suburb || data.address.district || '';
+                            const road = data.address.road || data.address.neighbourhood || '';
+                            
+                            let shortAddress = `${city}${suburb}${road}`.trim();
+                            if (!shortAddress) shortAddress = data.display_name.split(',')[0];
+                            
+                            locationText.textContent = shortAddress;
+                            showToast('📍 精准地图定位成功！');
+                        } else {
+                            locationText.textContent = '定位成功(待解析)';
+                            showToast('抓取坐标成功，但开放地图未能解析出具体街道名称');
+                        }
+                    } catch (err) {
+                        locationText.textContent = '默认演示区 (暂无网络)';
+                        showToast('国际地图接口数据获取超时');
                     }
-                } catch (err) {
-                    locationText.textContent = '默认演示区 (解析失败)';
-                    showToast('与国际地图 API 服务器失去连接');
-                }
-            }, (error) => {
-                locationText.textContent = '游客手动定位 (未授权)';
-                showToast('获取真实位置失败：请留意并允许浏览器地址栏左上角的定位权限授权弹窗');
-            }, {
-                enableHighAccuracy: true,
-                timeout: 8000
-            });
+                }, (error) => {
+                    locationText.textContent = '未获定位权限 (请点击重试)';
+                    const errorMsg = error.code === 1 
+                        ? '🚫 定位权限已被拒绝或拦截！\n\n这可能因为您的手机系统或浏览器禁止了网页获取位置，或者是默认网页安全策略。\n\n【解决方法】：请进入您的手机系统设置或浏览器设置 -> 找到“应用权限/隐私/位置信息” -> 开启/允许定位权限后刷新重试。' 
+                        : '⚠️ 获取卫星信号失败，请确保您的设备的 GPS 开关已打开，并且在室外或靠近窗户的地方信号更好。';
+                    alert(errorMsg); // 改用系统 alert 直接截断阻塞屏幕，确保提示必定被看见
+                }, {
+                    enableHighAccuracy: true,
+                    timeout: 8000
+                });
+            }, 600);
         });
     }
 
