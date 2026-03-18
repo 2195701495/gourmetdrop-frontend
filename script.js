@@ -217,7 +217,8 @@ function setupEventListeners() {
             
             authError.textContent = '请求中...';
             try {
-                const endpoint = authMode === 'login' ? 'http://localhost:3000/api/auth/login' : 'http://localhost:3000/api/auth/register';
+                const host = 'https://gourmetdrop-backend.onrender.com';
+                const endpoint = authMode === 'login' ? `${host}/api/auth/login` : `${host}/api/auth/register`;
                 const response = await fetch(endpoint, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
