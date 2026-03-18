@@ -119,6 +119,59 @@ function renderFoodGrid() {
 }
 
 function setupEventListeners() {
+    // Location Map Geocoding
+    const locationBtn = document.querySelector('.location');
+    const locationText = document.getElementById('current-location');
+    
+    if (locationBtn && locationText) {
+        locationBtn.style.cursor = 'pointer';
+        locationBtn.title = '点击获取当前真实位置';
+        
+        locationBtn.addEventListener('click', () => {
+            locationText.textContent = '正在获取卫星定位...';
+            
+            if (!navigator.geolocation) {
+                locationText.textContent = '浏览器不支持定位';
+                showToast('您的浏览器不支持地理位置功能');
+                return;
+            }
+
+            navigator.geolocation.getCurrentPosition(async (position) => {
+                const lat = position.coords.latitude;
+                const lon = position.coords.longitude;
+                try {
+                    // OpenStreetMap Nominatim API for Free Reverse Geocoding
+                    const res = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}&addressdetails=1&accept-language=zh`);
+                    const data = await res.json();
+                    
+                    if (data && data.address) {
+                        const city = data.address.city || data.address.town || data.address.county || '';
+                        const suburb = data.address.suburb || data.address.district || '';
+                        const road = data.address.road || data.address.neighbourhood || '';
+                        
+                        let shortAddress = `${city}${suburb}${road}`.trim();
+                        if (!shortAddress) shortAddress = data.display_name.split(',')[0];
+                        
+                        locationText.textContent = shortAddress;
+                        showToast('📍 精准地图定位成功！');
+                    } else {
+                        locationText.textContent = '定位成功(无可查街道)';
+                        showToast('获取您的坐标成功，但免费解析引擎未能匹配对应的街道地图');
+                    }
+                } catch (err) {
+                    locationText.textContent = '默认演示区 (解析失败)';
+                    showToast('与国际地图 API 服务器失去连接');
+                }
+            }, (error) => {
+                locationText.textContent = '游客手动定位 (未授权)';
+                showToast('获取真实位置失败：请留意并允许浏览器地址栏左上角的定位权限授权弹窗');
+            }, {
+                enableHighAccuracy: true,
+                timeout: 8000
+            });
+        });
+    }
+
     // Categories
     document.querySelectorAll('.category-item').forEach(item => {
         item.addEventListener('click', (e) => {
