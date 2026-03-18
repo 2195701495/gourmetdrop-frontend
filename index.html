@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GourmetDrop - 外卖配送</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Material Symbols -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Top Navigation -->
+    <nav class="top-nav">
+        <div class="nav-container">
+            <div class="logo">
+                <span class="material-symbols-rounded icon-primary">restaurant</span>
+                <h2>GourmetDrop</h2>
+            </div>
+            
+            <div class="search-bar">
+                <span class="material-symbols-rounded">search</span>
+                <input type="text" placeholder="搜索附近的美食、餐厅...">
+            </div>
+
+            <div class="location">
+                <span class="material-symbols-rounded icon-primary">location_on</span>
+                <span>科技园科兴科学园 A座</span>
+                <span class="material-symbols-rounded">expand_more</span>
+            </div>
+
+            <div class="nav-actions">
+                <a href="#" class="nav-item active">首页</a>
+                <a href="#" class="nav-item">订单</a>
+                <a href="#" class="nav-item cart-nav">
+                    <span class="material-symbols-rounded">shopping_bag</span>
+                    <span class="cart-count" style="display: none;">0</span>
+                </a>
+                <!-- Auth Area -->
+                <div class="auth-area" id="auth-area">
+                    <button class="login-btn" id="nav-login-btn">登录 / 注册</button>
+                    <div class="user-profile" id="user-profile" style="display: none;">
+                        <span class="username-display" id="username-display">User</span>
+                        <div class="profile-pic">
+                            <img src="https://ui-avatars.com/api/?name=User&background=FF6838&color=fff" id="profile-img" alt="Profile">
+                        </div>
+                        <button class="logout-btn" id="logout-btn" title="退出登录"><span class="material-symbols-rounded">logout</span></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-container">
+        <!-- Banner Section -->
+        <section class="banner-section">
+            <div class="banner">
+                <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?q=80&w=2070&auto=format&fit=crop" alt="Promo Banner" class="banner-bg">
+                <div class="banner-content">
+                    <span class="badge">今日特惠</span>
+                    <h2>新用户专享 <br><span class="highlight">首单半价</span></h2>
+                    <p>超多周边美食，极速送达，美味不用等！</p>
+                    <button class="btn-primary">立即点餐</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Categories Section -->
+        <section class="categories-section">
+            <div class="section-header">
+                <h3>精选分类</h3>
+            </div>
+            <div class="categories-grid">
+                <div class="category-item">
+                    <div class="icon-box">🍔</div>
+                    <span>汉堡</span>
+                </div>
+                <div class="category-item">
+                    <div class="icon-box">🍕</div>
+                    <span>披萨</span>
+                </div>
+                <div class="category-item">
+                    <div class="icon-box">🍣</div>
+                    <span>寿司</span>
+                </div>
+                <div class="category-item">
+                    <div class="icon-box">🥗</div>
+                    <span>健康轻食</span>
+                </div>
+                <div class="category-item">
+                    <div class="icon-box">🍩</div>
+                    <span>甜点饮品</span>
+                </div>
+                <div class="category-item">
+                    <div class="icon-box">☕</div>
+                    <span>咖啡</span>
+                </div>
+                <div class="category-item">
+                    <div class="icon-box">🍜</div>
+                    <span>粉面粥</span>
+                </div>
+                <div class="category-item">
+                    <div class="icon-box">🍱</div>
+                    <span>工作便当</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Popular Near You -->
+        <section class="popular-section">
+            <div class="section-header">
+                <h3>附近热门美食</h3>
+                <div class="filter-group">
+                    <button class="filter-btn active">综合排序</button>
+                    <button class="filter-btn">销量最高</button>
+                    <button class="filter-btn">距离最近</button>
+                    <button class="filter-btn">好评优先</button>
+                </div>
+            </div>
+            
+            <div class="food-grid" id="food-grid">
+                <!-- Cards will be dynamically injected here by JS -->
+            </div>
+        </section>
+    </main>
+
+    <!-- Cart Overlay & Sidebar -->
+    <div class="cart-overlay" id="cart-overlay"></div>
+    <div class="cart-sidebar" id="cart-sidebar">
+        <div class="cart-header">
+            <h3>我的购物车</h3>
+            <button class="close-cart" id="close-cart"><span class="material-symbols-rounded">close</span></button>
+        </div>
+        <div class="cart-items" id="cart-items">
+            <!-- Cart items dynamically injected -->
+            <div class="empty-cart-msg">购物车是空的，快去选购美食吧！</div>
+        </div>
+        <div class="cart-footer">
+            <div class="cart-total">
+                <span>总计:</span>
+                <span class="total-price" id="total-price">¥ 0.00</span>
+            </div>
+            <button class="checkout-btn" id="checkout-btn">去结算</button>
+        </div>
+    </div>
+
+    <!-- Toast Notifications Container -->
+    <div class="toast-container" id="toast-container"></div>
+
+    <!-- Auth Modal -->
+    <div class="auth-overlay" id="auth-overlay"></div>
+    <div class="auth-modal" id="auth-modal">
+        <button class="close-auth" id="close-auth"><span class="material-symbols-rounded">close</span></button>
+        <div class="auth-tabs">
+            <button class="auth-tab active" data-tab="login">登录</button>
+            <button class="auth-tab" data-tab="register">注册</button>
+        </div>
+        <form class="auth-form" id="auth-form">
+            <div class="form-group">
+                <label>用户名</label>
+                <input type="text" id="auth-username" required placeholder="请输入用户名">
+            </div>
+            <div class="form-group">
+                <label>密码</label>
+                <input type="password" id="auth-password" required placeholder="请输入密码">
+            </div>
+            <button type="submit" class="auth-submit-btn" id="auth-submit-btn">登录</button>
+            <div class="auth-error" id="auth-error"></div>
+        </form>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
