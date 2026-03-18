@@ -1,12 +1,35 @@
 const foodData = [
-    { id: 1, name: "意式经典香肠披萨", category: "披萨", price: 58.00, rating: 4.8, reviews: 213, distance: 1.2, time: "20-30 分钟", img: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?q=80&w=962&auto=format&fit=crop", sales: 1200 },
-    { id: 2, name: "和风刺身寿司大拼盘", category: "寿司", price: 128.00, rating: 4.9, reviews: 150, distance: 2.5, time: "15-25 分钟", img: "https://images.unsplash.com/photo-1579871494447-9811cf80d66c?q=80&w=1740&auto=format&fit=crop", sales: 800 },
-    { id: 3, name: "经典多汁牛肉汉堡", category: "汉堡", price: 38.00, rating: 4.7, reviews: 320, distance: 0.8, time: "10-20 分钟", img: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=1599&auto=format&fit=crop", sales: 2400 },
+    // 汉堡 4
+    { id: 1, name: "经典多汁牛肉汉堡", category: "汉堡", price: 38.00, rating: 4.7, reviews: 320, distance: 0.8, time: "10-20 分钟", img: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=1599&auto=format&fit=crop", sales: 2400 },
+    { id: 11, name: "双层芝士培根堡大号", category: "汉堡", price: 48.00, rating: 4.8, reviews: 512, distance: 1.0, time: "15-25 分钟", img: "https://images.unsplash.com/photo-1550547660-d9450f859349?q=80&w=1665&auto=format&fit=crop", sales: 1800 },
+    { id: 12, name: "香脆炸鸡腿堡", category: "汉堡", price: 29.00, rating: 4.6, reviews: 420, distance: 1.2, time: "15-20 分钟", img: "https://images.unsplash.com/photo-1610440042657-612c34d95e9f?q=80&w=1587&auto=format&fit=crop", sales: 3100 },
+    { id: 13, name: "黑椒烤牛排堡", category: "汉堡", price: 55.00, rating: 4.9, reviews: 210, distance: 2.1, time: "20-30 分钟", img: "https://images.unsplash.com/photo-1594212691516-7ca2d3accc0a?q=80&w=1587&auto=format&fit=crop", sales: 900 },
+    // 披萨 3
+    { id: 2, name: "意式经典香肠披萨", category: "披萨", price: 58.00, rating: 4.8, reviews: 213, distance: 1.2, time: "20-30 分钟", img: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?q=80&w=962&auto=format&fit=crop", sales: 1200 },
+    { id: 8, name: "黑松露芝士双拼披萨", category: "披萨", price: 88.00, rating: 4.9, reviews: 156, distance: 1.3, time: "20-30 分钟", img: "https://images.unsplash.com/photo-1513104890138-7c749659a591?q=80&w=1740&auto=format&fit=crop", sales: 600 },
+    { id: 14, name: "夏威夷风情鲜虾披萨", category: "披萨", price: 65.00, rating: 4.5, reviews: 300, distance: 1.5, time: "25-35 分钟", img: "https://images.unsplash.com/photo-1590947132387-155cc02f3212?q=80&w=1740&auto=format&fit=crop", sales: 1100 },
+    // 寿司 3
+    { id: 3, name: "和风刺身寿司大拼盘", category: "寿司", price: 128.00, rating: 4.9, reviews: 150, distance: 2.5, time: "15-25 分钟", img: "https://images.unsplash.com/photo-1579871494447-9811cf80d66c?q=80&w=1740&auto=format&fit=crop", sales: 800 },
+    { id: 15, name: "炙烤三文鱼手握", category: "寿司", price: 35.00, rating: 4.8, reviews: 220, distance: 0.9, time: "10-20 分钟", img: "https://images.unsplash.com/photo-1553621042-f6e147245754?q=80&w=1625&auto=format&fit=crop", sales: 1500 },
+    { id: 16, name: "特级金枪鱼刺身", category: "寿司", price: 88.00, rating: 4.9, reviews: 110, distance: 1.8, time: "20-30 分钟", img: "https://images.unsplash.com/photo-1611143669185-af224c5e3252?q=80&w=1632&auto=format&fit=crop", sales: 400 },
+    // 健康轻食 3
     { id: 4, name: "牛油果鸡胸肉轻食沙拉", category: "健康轻食", price: 45.00, rating: 4.9, reviews: 410, distance: 1.5, time: "15-20 分钟", img: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?q=80&w=1740&auto=format&fit=crop", sales: 1500 },
+    { id: 17, name: "地中海果蔬燕麦盆", category: "健康轻食", price: 38.00, rating: 4.7, reviews: 180, distance: 1.1, time: "10-20 分钟", img: "https://images.unsplash.com/photo-1490645935967-10de6ba17061?q=80&w=1753&auto=format&fit=crop", sales: 700 },
+    { id: 18, name: "低脂鲜虾红藜麦饭", category: "健康轻食", price: 52.00, rating: 4.8, reviews: 290, distance: 0.6, time: "15-20 分钟", img: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=1760&auto=format&fit=crop", sales: 1300 },
+    // 甜点饮品 3
+    { id: 19, name: "法式提拉米苏蛋糕", category: "甜点饮品", price: 32.00, rating: 4.9, reviews: 500, distance: 0.5, time: "10-15 分钟", img: "https://images.unsplash.com/photo-1571115177098-24de4384a136?q=80&w=1740&auto=format&fit=crop", sales: 1900 },
+    { id: 20, name: "抹茶奥利奥雪冰", category: "甜点饮品", price: 24.00, rating: 4.7, reviews: 620, distance: 1.3, time: "15-20 分钟", img: "https://images.unsplash.com/photo-1558222218-b7b54eede3f3?q=80&w=1587&auto=format&fit=crop", sales: 2200 },
+    { id: 21, name: "草莓流心舒芙蕾", category: "甜点饮品", price: 28.00, rating: 4.8, reviews: 310, distance: 2.2, time: "20-30 分钟", img: "https://images.unsplash.com/photo-1551024601-bec78aea704b?q=80&w=1664&auto=format&fit=crop", sales: 850 },
+    // 咖啡 2
     { id: 5, name: "拿铁咖啡配可颂", category: "咖啡", price: 32.00, rating: 4.6, reviews: 180, distance: 0.5, time: "5-15 分钟", img: "https://images.unsplash.com/photo-1497935586351-b67a49e012bf?q=80&w=1634&auto=format&fit=crop", sales: 3100 },
+    { id: 22, name: "冰美式特浓", category: "咖啡", price: 18.00, rating: 4.5, reviews: 890, distance: 0.3, time: "5-10 分钟", img: "https://images.unsplash.com/photo-1517256064527-09c73fc73e38?q=80&w=1587&auto=format&fit=crop", sales: 5600 },
+    // 粉面粥 3
     { id: 6, name: "招牌牛肉面", category: "粉面粥", price: 28.00, rating: 4.5, reviews: 800, distance: 1.1, time: "15-25 分钟", img: "https://images.unsplash.com/photo-1552611052-33e04de081de?q=80&w=1064&auto=format&fit=crop", sales: 4200 },
+    { id: 23, name: "重庆红油小面", category: "粉面粥", price: 15.00, rating: 4.4, reviews: 1200, distance: 1.8, time: "15-20 分钟", img: "https://images.unsplash.com/photo-1590184462130-10db685b85a3?q=80&w=1587&auto=format&fit=crop", sales: 6000 },
+    { id: 24, name: "生滚海鲜鲜虾粥", category: "粉面粥", price: 35.00, rating: 4.8, reviews: 340, distance: 2.4, time: "25-35 分钟", img: "https://images.unsplash.com/photo-1555505019-8c3f1c4aba5f?q=80&w=1740&auto=format&fit=crop", sales: 1100 },
+    // 工作便当 2
     { id: 7, name: "日式鳗鱼饭工作便当", category: "工作便当", price: 52.00, rating: 4.8, reviews: 290, distance: 2.0, time: "25-35 分钟", img: "https://images.unsplash.com/photo-1576402120072-af56999a4e23?q=80&w=1528&auto=format&fit=crop", sales: 900 },
-    { id: 8, name: "黑松露芝士双拼披萨", category: "披萨", price: 88.00, rating: 4.9, reviews: 156, distance: 1.3, time: "20-30 分钟", img: "https://images.unsplash.com/photo-1513104890138-7c749659a591?q=80&w=1740&auto=format&fit=crop", sales: 600 }
+    { id: 25, name: "台式照烧鸡腿双拼饭", category: "工作便当", price: 26.00, rating: 4.6, reviews: 530, distance: 0.9, time: "10-20 分钟", img: "https://images.unsplash.com/photo-1604908176997-125f25cc6f3d?q=80&w=1613&auto=format&fit=crop", sales: 2500 }
 ];
 
 let cart = [];
@@ -14,6 +37,8 @@ let favorites = new Set();
 let currentCategory = 'all';
 let currentSort = '综合排序';
 let searchQuery = '';
+const API_HOST = 'https://gourmetdrop-backend.onrender.com';
+let pollingInterval = null;
 
 document.addEventListener('DOMContentLoaded', () => {
     initApp();
@@ -85,7 +110,6 @@ function renderFoodGrid() {
         grid.appendChild(card);
     });
 
-    // Reattach listeners to new buttons
     document.querySelectorAll('.favorite-btn').forEach(btn => {
         btn.addEventListener('click', handleFavoriteToggle);
     });
@@ -103,7 +127,6 @@ function setupEventListeners() {
             target.classList.add('active');
             const catName = target.querySelector('span').textContent;
             
-            // Toggle off logic
             if (currentCategory === catName) {
                 currentCategory = 'all';
                 target.classList.remove('active');
@@ -164,7 +187,7 @@ function setupEventListeners() {
     const authForm = document.getElementById('auth-form');
     const authError = document.getElementById('auth-error');
     const authSubmitBtn = document.getElementById('auth-submit-btn');
-    let authMode = 'login'; // 'login' or 'register'
+    let authMode = 'login';
 
     function checkAuthState() {
         const token = localStorage.getItem('token');
@@ -217,8 +240,7 @@ function setupEventListeners() {
             
             authError.textContent = '请求中...';
             try {
-                const host = 'https://gourmetdrop-backend.onrender.com';
-                const endpoint = authMode === 'login' ? `${host}/api/auth/login` : `${host}/api/auth/register`;
+                const endpoint = authMode === 'login' ? `${API_HOST}/api/auth/login` : `${API_HOST}/api/auth/register`;
                 const response = await fetch(endpoint, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -258,6 +280,107 @@ function setupEventListeners() {
             showToast('已退出登录');
         });
     }
+
+    // Checkout Button Logic
+    const checkoutBtn = document.getElementById('checkout-btn');
+    if (checkoutBtn) {
+        checkoutBtn.addEventListener('click', handleCheckout);
+    }
+    
+    const closeWechatBtn = document.getElementById('close-wechat');
+    if (closeWechatBtn) {
+        closeWechatBtn.addEventListener('click', () => {
+            document.getElementById('wechat-pay-overlay').classList.remove('active');
+            document.getElementById('wechat-pay-modal').classList.remove('active');
+            if (pollingInterval) clearInterval(pollingInterval);
+            showToast('已取消支付');
+        });
+    }
+}
+
+async function handleCheckout() {
+    const token = localStorage.getItem('token');
+    if (!token) {
+        showToast('请先登录您的账号！');
+        document.getElementById('cart-overlay').click(); // close cart
+        document.getElementById('nav-login-btn').click(); // open login
+        return;
+    }
+
+    if (cart.length === 0) {
+        showToast('购物车是空的！');
+        return;
+    }
+
+    const checkoutBtn = document.getElementById('checkout-btn');
+    checkoutBtn.textContent = '正在创建订单...';
+    checkoutBtn.disabled = true;
+
+    try {
+        const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+        const orderRes = await fetch(`${API_HOST}/api/orders/create`, {
+            method: 'POST',
+            headers: { 
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify({ items: cart, total })
+        });
+        const orderData = await orderRes.json();
+
+        if (!orderRes.ok) throw new Error(orderData.error);
+
+        // Call WeChat Mock Pay
+        const payRes = await fetch(`${API_HOST}/api/pay/wechat`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ orderId: orderData.orderId })
+        });
+        const payData = await payRes.json();
+        if (!payRes.ok) throw new Error(payData.error);
+
+        // Display WeChat Pay Modal
+        document.getElementById('cart-overlay').click(); // close cart
+        document.getElementById('wechat-pay-amount').textContent = `¥ ${total.toFixed(2)}`;
+        document.getElementById('wechat-scan-overlay').style.display = 'none';
+        document.getElementById('wechat-pay-overlay').classList.add('active');
+        document.getElementById('wechat-pay-modal').classList.add('active');
+
+        // Start Polling for Order Status
+        startOrderPolling(orderData.orderId);
+
+    } catch (err) {
+        showToast(err.message || '结算失败，请稍后再试');
+    } finally {
+        checkoutBtn.textContent = '去结算';
+        checkoutBtn.disabled = false;
+    }
+}
+
+function startOrderPolling(orderId) {
+    if (pollingInterval) clearInterval(pollingInterval);
+    
+    pollingInterval = setInterval(async () => {
+        try {
+            const res = await fetch(`${API_HOST}/api/orders/${orderId}/status`);
+            const data = await res.json();
+            
+            if (data.status === 'PAID') {
+                clearInterval(pollingInterval);
+                document.getElementById('wechat-scan-overlay').style.display = 'flex';
+                
+                setTimeout(() => {
+                    document.getElementById('wechat-pay-overlay').classList.remove('active');
+                    document.getElementById('wechat-pay-modal').classList.remove('active');
+                    cart = [];
+                    updateCartBadge();
+                    showToast('🎉 支付成功！商家已接单！');
+                }, 1500);
+            }
+        } catch (err) {
+            console.error('Polling error:', err);
+        }
+    }, 1000);
 }
 
 function handleFavoriteToggle(e) {
@@ -302,7 +425,6 @@ function handleAddToCart(e) {
     updateCartBadge();
     showToast(`已添加 ${item.name} 到购物车`);
 
-    // Animate cart badge
     const cartBadge = document.querySelector('.cart-count');
     if (cartBadge) {
         cartBadge.animate([
@@ -359,7 +481,6 @@ function renderCartItems() {
 
     totalPriceEl.textContent = '¥ ' + total.toFixed(2);
 
-    // Attach qty listeners
     container.querySelectorAll('.qty-btn').forEach(btn => {
         btn.addEventListener('click', (e) => {
             const id = parseInt(e.currentTarget.getAttribute('data-id'));

@@ -171,6 +171,29 @@
         </form>
     </div>
 
+    <!-- WeChat Pay Modal -->
+    <div class="wechat-pay-overlay" id="wechat-pay-overlay"></div>
+    <div class="wechat-pay-modal" id="wechat-pay-modal">
+        <div class="wechat-header">
+            <span class="material-symbols-rounded" style="color: #09B83E; font-size: 28px;">chat_bubble</span>
+            微信安全支付
+        </div>
+        <div class="wechat-body">
+            <h3 id="wechat-pay-amount">¥ 0.00</h3>
+            <div class="qr-code-box">
+                <!-- Fallback real QR representing the protocol -->
+                <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=MockWechatPayTest&color=09B83E" alt="WeChat Pay QR">
+                <div class="scan-overlay" id="wechat-scan-overlay" style="display: none;">
+                    <span class="material-symbols-rounded check-icon">check_circle</span>
+                    <p>支付成功</p>
+                </div>
+            </div>
+            <p class="scan-tip"><span class="material-symbols-rounded" style="font-size: 16px; margin-right: 4px;">qr_code_scanner</span>手机微信 扫一扫支付</p>
+            <p class="mock-warning">（此为沙盒模拟，无需任何真实资金扣款）</p>
+        </div>
+        <button class="close-wechat" id="close-wechat">取消支付 (关闭)</button>
+    </div>
+
     <script src="script.js"></script>
 </body>
 </html>
